@@ -14,24 +14,36 @@ namespace ForAlgorithm
             int ReLuckMultiplier = LuckMultiplier.Next(0, 4);
             return ReLuckMultiplier;
         }
+        public static int RandEnemyPicker(Character[] characters)
+        {
+            Random RandNum = new Random();
+            int RandomCharacter = 0;
+            while (true)
+            {
+
+                RandomCharacter = RandNum.Next(0, characters.Length);
+                if (characters[RandomCharacter].Health > 0) break;
+            }
+            return RandomCharacter;
+        }
         public static int ChooseTarget(Character[] persons)
         {
             for (int i = 0; i < persons.Length; i++)
             {
-                if (persons[i] != null)
+                if (persons[i] != null && persons[i].Health > 0)
                 {
                     SystemMessage($"{i}. {persons[i].Name}\n", 0);
                 }
             }
-            Console.WriteLine("Выберите цель:");
+            SystemMessage("Выберите цель:", 0);
             int targetID = 0;
             targetID = Convert.ToInt32(Console.ReadLine());
+                
             Console.Clear();
             return targetID;
         }
         public static int CalculateDamage(Character perso)
         {
-
             return perso.AttackPower * LuckRandNum();
         }
         public static void ShowGoblin()

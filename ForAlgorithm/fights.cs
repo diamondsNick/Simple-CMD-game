@@ -11,8 +11,11 @@ namespace ForAlgorithm
     {
         public static int CalculateDamage(Character perso)
         {
-
             return perso.AttackPower * LuckRandNum();
+        }
+        public static int GiveDamage(Character CurCharacter, Character TargetCharacter)
+        {
+            return TargetCharacter.Health -= CalculateDamage(CurCharacter);
         }
         public static void BattleRetrier(Character Attacker, Character Enemy, string messageStart)
         {
@@ -95,10 +98,37 @@ namespace ForAlgorithm
         }
         public static void LargeBattle(Character[] heroes, Character[] enemies)
         {
-            for (int i = 0; i < enemies.Length; i++)
+            while (true)
             {
-                Console.WriteLine($"Сейчас атакует: {heroes[i].Name}");
-
+                int amOfActiveHeroes = 0;
+                for (int i = 0; i < heroes.Length; i++)
+                {
+                    
+                    if (heroes[i] != null && heroes[i].Health > 0)
+                    {
+                        SystemMessage($"Сейчас атакует: {heroes[i].Name}", 0);
+                        int e = ChooseTarget(enemies);
+                        SystemMessage($"{heroes[i].Name} атакует: {enemies[e].Name}", 0);
+                        GiveDamage(heroes[i], enemies[e]);
+                        amOfActiveHeroes++;
+                    }
+                }
+                if (amOfActiveHeroes == 0)
+                { Console.WriteLine("Все герои были побеждены..."); break; }
+                int amOfActiveEnemies = 0;
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    if (enemies[i] != null)
+                    {
+                        SystemMessage($"Сейчас атакует: {enemies[i].Name}", 0);
+                        int e = RandEnemyPicker(heroes);
+                        SystemMessage($"{enemies[i].Name} атакует: {heroes[e].Name}", 0);
+                        GiveDamage(enemies[i], heroes[e]);
+                        amOfActiveEnemies++;
+                    }
+                }
+                if (amOfActiveEnemies == 0)
+                { Console.WriteLine("Все враги были побеждены..."); break; }
             }
         }
     }
