@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace ForAlgorithm
 {
-        public partial class Character()
-        {
-            string name;
-            int health;
-            int backupHealth;
-            int attackPower;
-            string asciiArt;
+    public partial class Character(string Name, int Health, int BackupHealth, int AttackPower)
+    {
 
-            public string Name { get => name; set => name = value; }
-            public int Health { get => health; set => health = value; }
-            public int AttackPower { get => attackPower; set => attackPower = value; }
-            public string AsciiArt { get => asciiArt; set => asciiArt = value; }
-            public int BackupHealth { get => backupHealth; set => backupHealth = value; }
-        }
+        string asciiArt;
+
+        public string Name { get; set; } = Name;
+        public int Health { get; set; } = Health;
+        public int BackupHealth { get; set; } = BackupHealth;
+        public int AttackPower { get; set; } = AttackPower;
+        public string AsciiArt { get => asciiArt; set => asciiArt = value; }
+    }
 }
