@@ -16,11 +16,11 @@ internal class Program
         //Player.Health = 100;
         //Player.BackupHealth = 100;
         //Player.AttackPower = 5;
-        //Player.AsciiArt = "  / \\\r\n  | |\r\n  |.|\r\n  |.|\r\n  |:|      __\r\n,_|:|_,   /  )\r\n  (Oo    / _I_\r\n   +\\ \\  || __|\r\n      \\ \\||___|\r\n        \\ /.:.\\-\\\r\n         |.:. /-----\\\r\n         |___|::oOo::|\r\n         /   |:<_T_>:|\r\n        |_____\\ ::: /\r\n         | |  \\ \\:/\r\n         | |   | |\r\n         \\ /   | \\___\r\n         / |   \\_____\\\r\n         `-'";
+        mainStack[0].AsciiArt = "  / \\\r\n  | |\r\n  |.|\r\n  |.|\r\n  |:|      __\r\n,_|:|_,   /  )\r\n  (Oo    / _I_\r\n   +\\ \\  || __|\r\n      \\ \\||___|\r\n        \\ /.:.\\-\\\r\n         |.:. /-----\\\r\n         |___|::oOo::|\r\n         /   |:<_T_>:|\r\n        |_____\\ ::: /\r\n         | |  \\ \\:/\r\n         | |   | |\r\n         \\ /   | \\___\r\n         / |   \\_____\\\r\n         `-'";
 
         foreach (Character chel in mainStack)
         {
-            if (chel != null) { Console.WriteLine(chel.Name); }
+            if (chel != null) { Console.WriteLine(chel.AsciiArt); }
         }
 
     }

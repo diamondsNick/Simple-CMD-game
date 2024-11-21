@@ -14,6 +14,21 @@ namespace ForAlgorithm
             int ReLuckMultiplier = LuckMultiplier.Next(0, 4);
             return ReLuckMultiplier;
         }
+        public static int ChooseTarget(Character[] persons)
+        {
+            for (int i = 0; i < persons.Length; i++)
+            {
+                if (persons[i] != null)
+                {
+                    SystemMessage($"{i}. {persons[i].Name}\n", 0);
+                }
+            }
+            Console.WriteLine("Выберите цель:");
+            int targetID = 0;
+            targetID = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+            return targetID;
+        }
         public static int CalculateDamage(Character perso)
         {
 

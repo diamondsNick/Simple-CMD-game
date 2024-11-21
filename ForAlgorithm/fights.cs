@@ -93,5 +93,13 @@ namespace ForAlgorithm
 
             }
         }
+        public static void LargeBattle(Character[] heroes, Character[] enemies)
+        {
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                Console.WriteLine($"Сейчас атакует: {heroes[i].Name}");
+
+            }
+        }
     }
 }
