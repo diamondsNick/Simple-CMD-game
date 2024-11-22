@@ -15,7 +15,10 @@ namespace ForAlgorithm
         }
         public static int GiveDamage(Character CurCharacter, Character TargetCharacter)
         {
-            return TargetCharacter.Health -= CalculateDamage(CurCharacter);
+            int dam = CalculateDamage(CurCharacter);
+            if (dam >= 0) return dam;
+            else return dam * -1;
+
         }
         public static void BattleRetrier(Character Attacker, Character Enemy, string messageStart)
         {
@@ -100,35 +103,57 @@ namespace ForAlgorithm
         {
             while (true)
             {
-                int amOfActiveHeroes = 0;
+               
+                if (IsArrayOfCharactersBeaten(heroes) == true)
+                {
+                    Console.WriteLine("Все герои были побеждены... :("); break;
+                }
+
                 for (int i = 0; i < heroes.Length; i++)
                 {
-                    
+
                     if (heroes[i] != null && heroes[i].Health > 0)
                     {
                         SystemMessage($"Сейчас атакует: {heroes[i].Name}", 0);
-                        int e = ChooseTarget(enemies);
-                        SystemMessage($"{heroes[i].Name} атакует: {enemies[e].Name}", 0);
-                        GiveDamage(heroes[i], enemies[e]);
-                        amOfActiveHeroes++;
+                        int e = ChooseTarget(enemies, true);
+                        if (e != -1)
+                        {
+                            SystemMessage(heroes[i].AsciiArt, 1);
+                            SystemMessage($"{heroes[i].Name} атакует: {enemies[e].Name}", 0);
+                            int DamageGiven = GiveDamage(heroes[i], enemies[e]);
+                            SystemMessage($"{heroes[i].Name} нанес {enemies[e].Name} {DamageGiven} урона\n", 0);
+                            enemies[e].Health -= DamageGiven;
+                        }
+                        Console.ReadKey();
+                        Console.Clear();
                     }
+                }               
+                Console.Clear();
+                if (IsArrayOfCharactersBeaten(enemies) == true) 
+                {
+                    Console.WriteLine("Все враги были побеждены... ПОБЕДА!"); break;
                 }
-                if (amOfActiveHeroes == 0)
-                { Console.WriteLine("Все герои были побеждены..."); break; }
-                int amOfActiveEnemies = 0;
+
                 for (int i = 0; i < enemies.Length; i++)
                 {
-                    if (enemies[i] != null)
+                    if (enemies[i] != null && enemies[i].Health > 0)
                     {
+                        SystemMessage(enemies[i].AsciiArt, 1);
                         SystemMessage($"Сейчас атакует: {enemies[i].Name}", 0);
                         int e = RandEnemyPicker(heroes);
+
                         SystemMessage($"{enemies[i].Name} атакует: {heroes[e].Name}", 0);
-                        GiveDamage(enemies[i], heroes[e]);
-                        amOfActiveEnemies++;
+
+                        int DamageGiven = GiveDamage(enemies[i], heroes[e]);
+                        heroes[e].Health -= DamageGiven;
+                        SystemMessage($"{enemies[i].Name} нанес {heroes[e].Name} {DamageGiven} урона\n", 0);
+
+                        Console.ReadKey();
+                        Console.Clear();
+
                     }
                 }
-                if (amOfActiveEnemies == 0)
-                { Console.WriteLine("Все враги были побеждены..."); break; }
+                Console.Clear();
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ForAlgorithm;
 
 namespace ForAlgorithm
 {
@@ -22,113 +23,49 @@ namespace ForAlgorithm
             {
 
                 RandomCharacter = RandNum.Next(0, characters.Length);
-                if (characters[RandomCharacter].Health > 0) break;
+                if (characters[RandomCharacter] != null && characters[RandomCharacter].Health > 0) break;
             }
             return RandomCharacter;
         }
-        public static int ChooseTarget(Character[] persons)
+        public static int ChooseTarget(Character[] persons, bool isFight)
         {
+            int amOfActive = 0;
             for (int i = 0; i < persons.Length; i++)
             {
                 if (persons[i] != null && persons[i].Health > 0)
                 {
                     SystemMessage($"{i}. {persons[i].Name}\n", 0);
+                    amOfActive++;
                 }
+
             }
-            SystemMessage("Выберите цель:", 0);
-            int targetID = 0;
-            targetID = Convert.ToInt32(Console.ReadLine());
-                
-            Console.Clear();
-            return targetID;
+            if (amOfActive > 0 && isFight == true)
+            {
+                SystemMessage("Выберите цель:", 0);
+                int targetID = 0;
+                targetID = Convert.ToInt32(Console.ReadLine());
+
+                Console.Clear();
+                return targetID;
+            }
+            else return -1; //If none is active
         }
-        public static int CalculateDamage(Character perso)
+        public static bool IsArrayOfCharactersBeaten(Character[] arrayOfCharacters)
         {
-            return perso.AttackPower * LuckRandNum();
+            int amountOfActiveCharacters = 0;
+            foreach (Character character in arrayOfCharacters)
+            {
+                if (character != null && character.Health > 0) amountOfActiveCharacters++;
+            }
+            if (amountOfActiveCharacters > 0) return false;
+            else return true;
+
         }
         public static void ShowGoblin()
         {
             Console.WriteLine("\r\n            /(.-\"\"-.)\\\r\n        |\\  \\/      \\/  /|\r\n        | \\ / =.  .= \\ / |\r\n        \\( \\   o\\/o   / )/\r\n         \\_, '-/  \\-' ,_/\r\n           /   \\__/   \\\r\n           \\ \\__/\\__/ /\r\n         ___\\ \\|--|/ /___\r\n       /`    \\      /    `\\\r\n      /       '----'       \\");
         }
-        public static void BattleRetrier(Character Attacker, Character Enemy, string messageStart)
-        {
-            while (true)
-            {
-                if (Battle(Attacker, Enemy, messageStart) == true)
-                {
-                    break;
-                }
-                else
-                {
-                    Console.Clear();
-                    SystemMessage("Вы хотите попробовать снова? (1 - нет)", 0);
-                    {
-                        string choice = Console.ReadLine();
-                        if (choice == "1")
-                        {
-                            SystemMessage("Увидимся снова, но позже...", 0);
-                            Console.ReadKey();
-                            Environment.Exit(0);
-                        }
-                        else
-                        {
-                            SystemMessage("НЕ СДАВАЙСЯ!", 1);
-                            Attacker.Health = Attacker.BackupHealth;
-                            Enemy.Health = Enemy.BackupHealth;
-                            Console.ReadKey();
-                        }
-                    }
-                }
-            }
-        }
-        public static bool Battle(Character Attacker, Character Enemy, string messageStart)
-        {
-            Console.ReadKey();
-            Console.Clear();
-            //Console.WriteLine("\n\tБИТВА НАЧИНАЕТСЯ!\n");
-            SystemMessage(messageStart, 0);
-            Console.ReadKey();
-
-            while (true)
-            {
-                Console.Clear();
-                if (Attacker.Health <= 0)
-                {
-                    SystemMessage($"Битва окончена... \n", 1);
-                    ForReading(1);
-                    SystemMessage($"{Attacker.Name} был побежден...", 1);
-                    Console.ReadKey();
-                    return false;
-                }
-                else if (Enemy.Health <= 0)
-                {
-                    SystemMessage($"Битва окончена...", 1);
-                    ForReading(1);
-                    SystemMessage($"\n{Attacker.Name} победил!", 1);
-                    Console.ReadKey();
-                    return true;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine(Enemy.AsciiArt);
-
-                    int damageTaken = CalculateDamage(Enemy);
-                    Attacker.Health -= damageTaken;
-                    SystemMessage($"\n{Enemy.Name} атакует! {Attacker.Name} нанесено {damageTaken} урона!\n", 1);
-
-                    Console.ReadKey();
-                    Console.Clear();
-
-                    Console.WriteLine(Attacker.AsciiArt);
-                    int damageGiven = CalculateDamage(Attacker);
-                    Enemy.Health -= damageGiven;
-                    SystemMessage($"\n{Attacker.Name} атакует! {Enemy.Name} нанесено {damageGiven} урона!\n", 1);
-                    Console.ReadKey();
-                }
-
-            }
-        }
+        
         public static void SystemMessage(string messageFromSystem, int type)
         {
             switch (type)
